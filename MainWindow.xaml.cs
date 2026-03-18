@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,27 +25,49 @@ namespace KeywordComparison
 
         private void CompareText(object sender, RoutedEventArgs e)
         {
-            int jobDescCount = keywordApperance(Keywords, txtBox1);
-            int resumeCount = keywordApperance(Keywords, txtBox2);
+            List<String> jobDescKeywords = GetKeywordsFromJobDescription(keywords, jobDescriptionBox);
+            int resumeCount = CountKeywordAppearances(jobDescKeywords, resumeBox);
             
-            if (jobDescCount == 0 )
+            if (jobDescKeywords.Count == 0 )
             {
                 scoreDisplay.Content = "Score: 0%";
             }
             else
             {
-                Double score =  ((Double) resumeCount / jobDescCount) * 100;
-                scoreDisplay.Content = $"Score: {score.ToString("F0")}%";
+                Double score =  ((Double) resumeCount / jobDescKeywords.Count) * 100;
+                scoreDisplay.Content = $"Score: {score:F0}%";
             }
         }
-        private int keywordApperance(ListBox keywords, TextBox body)
+
+        // we can call this function static as it does not rely on instance data (there are none!)
+        // Question is... when to use static fns?
+        private static List<String> GetKeywordsFromJobDescription(ListBox keywords, TextBox jobDescription)
         {
-            int keywordCount = 0;
+            List<String> keywordsInJD = new List<String>();
             for (int i = 0; i < keywords.Items.Count; i++)
             {
-                ListBoxItem item = (ListBoxItem) keywords.Items.GetItemAt(i);
-                String keyword = (String) item.Content;
-                if (body.Text.Contains(keyword)) {
+                ListBoxItem keyword = (ListBoxItem) keywords.Items.GetItemAt(i);
+                // what does \b mean?
+                // it means boundary anchor, so we have to match the word bordering a nonword character,
+                // like a space or tab
+                String pattern = $@"\b{((String)keyword.Content).ToLower()}\b";
+                // lowercase everything to avoid missing stuff
+                if (Regex.Match(jobDescription.Text.ToLower(), pattern).Success)
+                {
+                    keywordsInJD.Add((String) keyword.Content);
+                }
+            }
+            return keywordsInJD;
+        }
+
+        private static int CountKeywordAppearances(List<String> keywords, TextBox body)
+        {
+            int keywordCount = 0;
+            foreach (String keyword in keywords)
+            {
+                String pattern = $@"\b{keyword.ToLower()}\b";
+                if (Regex.Match(body.Text.ToLower(), pattern).Success)
+                {
                     keywordCount++;
                 }
             }

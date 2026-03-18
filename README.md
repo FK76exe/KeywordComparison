@@ -12,14 +12,9 @@ Otherwise, it's a low match.
 
 This application was made with C# and Windows Presentation Foundation (WPF) as a learning tool.
 
-```
-        /* TODO (2026-03-17)
-         * - get keywords from job desc
-         * - fill that into keyword apperance with body
-         * - match full words
-         * - fix variable names
-         * - display missing keywords
-         * - add/remove keywords
-         */
-
-```
+TODO
+- ✅Get keywords from the job description and use that for keyword appearance in resume
+- ✅ match for full words
+- ✅fix variable names
+- Display missing keywords
+- add/remove keywords

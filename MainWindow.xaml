@@ -22,14 +22,35 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" x:Name="txtBox1Label">Body 1</Label>
-        <TextBox Grid.Row="1" Grid.Column="0" x:Name="txtBox1" Margin="10"/>
+        <Label Grid.Row="0" Grid.Column="0" x:Name="jobDescriptionLabel">Job Description</Label>
+        <!--
+            - Text Wrapping -> we wrap text that overflows the width of the textBox
+            - Accepts Return -> we can use the enter key to create multi-line inputs.
+        Thanks to these and VerticalScrollBarVisibility, I can copy/paste job descriptions and resumes!
+        -->
+        <TextBox 
+            Grid.Row="1" 
+            Grid.Column="0" 
+            x:Name="jobDescriptionBox" 
+            Margin="10"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto"
+            AcceptsReturn="True"
+        />
 
-        <Label Grid.Row="0" Grid.Column="1" x:Name="txtBox2Label">Body 2</Label>
-        <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtBox2" Margin="10"/>
+        <Label Grid.Row="0" Grid.Column="1" x:Name="resumeLabel">Resume</Label>
+        <TextBox 
+            Grid.Row="1" 
+            Grid.Column="1" 
+            x:Name="resumeBox" 
+            Margin="10"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto"
+            AcceptsReturn="True"
+        />
 
         <Label Grid.Row="0" Grid.Column="2" x:Name="keywordlabel">Keywords</Label>
-        <ListBox Grid.Row="1" Grid.Column="2" x:Name="Keywords" Margin="10">
+        <ListBox Grid.Row="1" Grid.Column="2" x:Name="keywords" Margin="10">
             <ListBoxItem>Python</ListBoxItem>
             <ListBoxItem>Java</ListBoxItem>
             <ListBoxItem>JavaScript</ListBoxItem>
