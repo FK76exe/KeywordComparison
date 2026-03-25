@@ -21,27 +21,28 @@ namespace KeywordComparison
         public MainWindow()
         {
             InitializeComponent();
+            compareTab.eventHandler += onCompareText;
         }
 
-        private void CompareText(object sender, RoutedEventArgs e)
+        private void onCompareText(object sender, EventArgs e)
         {
-            List<String> jobDescKeywords = GetKeywordsFromJobDescription(keywords, jobDescriptionBox);
-            int resumeCount = CountKeywordAppearances(jobDescKeywords, resumeBox);
-            
-            if (jobDescKeywords.Count == 0 )
+            string jobDescription = compareTab.jobDescription;
+            string resume = compareTab.resume;
+
+            List<String> jobDescKeywords = GetKeywordsFromJobDescription(keywords, jobDescription);
+            int resumeCount = CountKeywordAppearances(jobDescKeywords, resume);
+
+            double score = 0;
+            if (jobDescKeywords.Count > 0)
             {
-                scoreDisplay.Content = "Score: 0%";
+               score =  ((Double) resumeCount / jobDescKeywords.Count) * 100;        
             }
-            else
-            {
-                Double score =  ((Double) resumeCount / jobDescKeywords.Count) * 100;
-                scoreDisplay.Content = $"Score: {score:F0}%";
-            }
+            compareTab.DisplayScore(score);
         }
 
         // we can call this function static as it does not rely on instance data (there are none!)
         // Question is... when to use static fns?
-        private static List<String> GetKeywordsFromJobDescription(ListBox keywords, TextBox jobDescription)
+        private static List<String> GetKeywordsFromJobDescription(ListBox keywords, string jobDescription)
         {
             List<String> keywordsInJD = new List<String>();
             for (int i = 0; i < keywords.Items.Count; i++)
@@ -52,7 +53,7 @@ namespace KeywordComparison
                 // like a space or tab
                 String pattern = $@"\b{((String)keyword.Content).ToLower()}\b";
                 // lowercase everything to avoid missing stuff
-                if (Regex.Match(jobDescription.Text.ToLower(), pattern).Success)
+                if (Regex.Match(jobDescription.ToLower(), pattern).Success)
                 {
                     keywordsInJD.Add((String) keyword.Content);
                 }
@@ -60,13 +61,13 @@ namespace KeywordComparison
             return keywordsInJD;
         }
 
-        private static int CountKeywordAppearances(List<String> keywords, TextBox body)
+        private static int CountKeywordAppearances(List<String> keywords, string body)
         {
             int keywordCount = 0;
             foreach (String keyword in keywords)
             {
                 String pattern = $@"\b{keyword.ToLower()}\b";
-                if (Regex.Match(body.Text.ToLower(), pattern).Success)
+                if (Regex.Match(body.ToLower(), pattern).Success)
                 {
                     keywordCount++;
                 }

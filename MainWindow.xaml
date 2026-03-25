@@ -14,50 +14,7 @@
     -->
     <TabControl>
         <TabItem Header="Compare">
-    
-        <Grid Margin="10">
-           <Grid.RowDefinitions>
-               <!-- Row 1: labels; Row 2: boxes; Row 3: button -->
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="40px"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                 <ColumnDefinition Width="*"></ColumnDefinition>
-             </Grid.ColumnDefinitions>
-
-            <Label Grid.Row="0" Grid.Column="0" x:Name="jobDescriptionLabel">Job Description</Label>
-            <!--
-                - Text Wrapping -> we wrap text that overflows the width of the textBox
-                - Accepts Return -> we can use the enter key to create multi-line inputs.
-            Thanks to these and VerticalScrollBarVisibility, I can copy/paste job descriptions and resumes!
-            -->
-            <TextBox 
-                Grid.Row="1" 
-                Grid.Column="0" 
-                x:Name="jobDescriptionBox" 
-                Margin="10"
-                TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto"
-                AcceptsReturn="True"
-            />
-
-            <Label Grid.Row="0" Grid.Column="1" x:Name="resumeLabel">Resume</Label>
-                <TextBox 
-                Grid.Row="1" 
-                Grid.Column="1" 
-                x:Name="resumeBox" 
-                Margin="10"
-                TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto"
-                AcceptsReturn="True"
-            />
-
-                <Button Grid.Column="0" Grid.Row="2" Click="CompareText" Grid.ColumnSpan="2" Width="200px">Compare</Button>
-                <Label Grid.Row="3" Grid.Column="0" x:Name="scoreDisplay" FontSize="20px" HorizontalAlignment="Center" Grid.ColumnSpan="2"></Label>
-        </Grid>
+            <local:CompareTab x:Name="compareTab"/>
         </TabItem>
         <TabItem Header="Keywords">
             <Grid Margin="10">
