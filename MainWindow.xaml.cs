@@ -29,6 +29,7 @@ namespace KeywordComparison
             string jobDescription = compareTab.jobDescription;
             string resume = compareTab.resume;
 
+            List<string> keywords = keywordTab.extractKeywords();
             List<String> jobDescKeywords = GetKeywordsFromJobDescription(keywords, jobDescription);
             int resumeCount = CountKeywordAppearances(jobDescKeywords, resume);
 
@@ -42,20 +43,19 @@ namespace KeywordComparison
 
         // we can call this function static as it does not rely on instance data (there are none!)
         // Question is... when to use static fns?
-        private static List<String> GetKeywordsFromJobDescription(ListBox keywords, string jobDescription)
+        private static List<String> GetKeywordsFromJobDescription(List<string> keywords, string jobDescription)
         {
             List<String> keywordsInJD = new List<String>();
-            for (int i = 0; i < keywords.Items.Count; i++)
+            for (int i = 0; i < keywords.Count; i++)
             {
-                ListBoxItem keyword = (ListBoxItem) keywords.Items.GetItemAt(i);
                 // what does \b mean?
                 // it means boundary anchor, so we have to match the word bordering a nonword character,
                 // like a space or tab
-                String pattern = $@"\b{((String)keyword.Content).ToLower()}\b";
+                String pattern = $@"\b{(keywords[i]).ToLower()}\b";
                 // lowercase everything to avoid missing stuff
                 if (Regex.Match(jobDescription.ToLower(), pattern).Success)
                 {
-                    keywordsInJD.Add((String) keyword.Content);
+                    keywordsInJD.Add((keywords[i]));
                 }
             }
             return keywordsInJD;
