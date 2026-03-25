@@ -34,6 +34,7 @@ namespace KeywordComparison
             // this is how we access public methods
             // note: string and String are the same thing, just need to be consistent with it.
             List<string> keywords = keywordTab.extractKeywords();
+            List<string> keywords = keywordTab.extractKeywords();
             List<String> jobDescKeywords = GetKeywordsFromJobDescription(keywords, jobDescription);
             int resumeCount = CountKeywordAppearances(jobDescKeywords, resume);
 
@@ -53,6 +54,7 @@ namespace KeywordComparison
             List<String> keywordsInJD = new List<String>();
             for (int i = 0; i < keywords.Count; i++)
             {
+                ListBoxItem keyword = (ListBoxItem) keywords.Items.GetItemAt(i);
                 // what does \b mean?
                 // it means boundary anchor, so we have to match the word bordering a nonword character,
                 // like a space or tab
