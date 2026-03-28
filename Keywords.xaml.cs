@@ -23,6 +23,7 @@ namespace KeywordComparison
     public partial class Keywords : UserControl
     {
         private string filename = "data.json";
+        private ListBoxItem selectedItem = null;
         public Keywords()
         {
             InitializeComponent();
@@ -46,8 +47,8 @@ namespace KeywordComparison
          */
         private void readDataFile(object sender, System.EventArgs e)
         {
-            if (File.Exists(filename)) {
-                string fileJSON = File.ReadAllText(filename); // read from data.json, a static file
+            if (File.Exists(this.filename)) {
+                string fileJSON = File.ReadAllText(this.filename); // read from data.json, a static file
                 // JsonSerializer is a static class, don't need to instantiate an object for it.
                 List<String> keywordsFromFile = JsonSerializer.Deserialize<List<string>>(fileJSON);
                 // with keywords loaded, make ListBoxItems out of it
@@ -56,9 +57,35 @@ namespace KeywordComparison
                     // for each keyword, create a ListBoxItem and add to to ListBox
                     // at the end, we will have all our keywords added to ListBox, yay!
                     ListBoxItem keywordItem = new ListBoxItem();
+                    keywordItem.Selected += this.setSelectedKeywordItem;
                     keywordItem.Content = keywordsFromFile[i];
                     keywords.Items.Add(keywordItem);
                 }
+            }
+        }
+    
+        // now, let's create another lifecycle hook... for when the program is destroyed/ended
+        // what do we need to do? Rewrite the file!
+        private void writeDataFile(object sender, System.EventArgs e)
+        {
+
+        }
+
+        // keep a selected keyword variable -> useful for display and editing/deleting it.
+        private void setSelectedKeywordItem(object sender, RoutedEventArgs e)
+            {
+                this.selectedItem = (ListBoxItem) sender;
+                removeButton.Content = $"Remove {selectedItem.Content}?";
+            }
+
+        private void removeKeyword(object sender, RoutedEventArgs e)
+        {
+            if (this.selectedItem != null)
+            {
+                // remove this item from the listbox
+                keywords.Items.Remove(this.selectedItem);
+                // reset selected item
+                this.selectedItem = null;
             }
         }
     }

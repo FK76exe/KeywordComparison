@@ -25,7 +25,9 @@
             When the program runs, we will call the function "readDataFile".
             What happens? Go check the code-behind file
         -->
-        <ListBox Grid.Row="1" Grid.Column="0" x:Name="keywords" Margin="10" Initialized="readDataFile">
+        <ListBox Grid.Row="1" Grid.Column="0" x:Name="keywords" Margin="10" Initialized="readDataFile" Clos>
         </ListBox>
+
+        <Button Grid.Row="2" Grid.Column="0" x:Name="removeButton" Click="removeKeyword"></Button>
     </Grid>
 </UserControl>
