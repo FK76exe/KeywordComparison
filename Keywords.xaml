@@ -18,10 +18,14 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" x:Name="keywordlabel">Keywords</Label>
-        <ListBox Grid.Row="1" Grid.Column="0" x:Name="keywords" Margin="10">
-            <ListBoxItem>Python</ListBoxItem>
-            <ListBoxItem>Java</ListBoxItem>
-            <ListBoxItem>JavaScript</ListBoxItem>
+        
+        <!--
+            Like a modern frontend framework, we can add lifecycle hooks!
+            For this ListBox we have an Initializer hook, when the box is created when the program is run
+            When the program runs, we will call the function "readDataFile".
+            What happens? Go check the code-behind file
+        -->
+        <ListBox Grid.Row="1" Grid.Column="0" x:Name="keywords" Margin="10" Initialized="readDataFile">
         </ListBox>
     </Grid>
 </UserControl>
