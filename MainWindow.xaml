@@ -7,7 +7,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KeywordComparison"
         mc:Ignorable="d"
-        Title="Keyword Comparison App" Height="450" Width="800">
+        Title="Keyword Comparison App" Height="450" Width="800"
+        Closing="saveData"
+        >
 
     <!-- We can add tabs to our software with tab control, just place each tab content under tabitem
          You can fit grids in there too.

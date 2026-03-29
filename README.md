@@ -12,9 +12,7 @@ Otherwise, it's a low match.
 
 This application was made with C# and Windows Presentation Foundation (WPF) as a learning tool.
 
-TODO
-- ✅Get keywords from the job description and use that for keyword appearance in resume
-- ✅ match for full words
-- ✅fix variable names
-- Display missing keywords
-- add/remove keywords
+TODO as of 2026-03-29
+- Remove keywords from data file
+- Add keyword feature 
+- View keywords resume matches and keywords it is missing

@@ -79,5 +79,10 @@ namespace KeywordComparison
             }
             return keywordCount;
         }
+
+        private void saveData(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            keywordTab.writeDataFile();
+        }
     }
 }

@@ -66,9 +66,18 @@ namespace KeywordComparison
     
         // now, let's create another lifecycle hook... for when the program is destroyed/ended
         // what do we need to do? Rewrite the file!
-        private void writeDataFile(object sender, System.EventArgs e)
+        public void writeDataFile()
         {
-
+            // make list of strings, then serialize into json
+            List<string> keywordStrings = new List<string>();
+            for (int i = 0; i < keywords.Items.Count; i++)
+            {
+                ListBoxItem item = (ListBoxItem) keywords.Items[i];
+                keywordStrings.Add((String) item.Content);
+            }
+            string serailizedList = JsonSerializer.Serialize(keywordStrings);
+            // overwrite data.json with new serializedList
+            File.WriteAllText(this.filename, serailizedList);
         }
 
         // keep a selected keyword variable -> useful for display and editing/deleting it.
