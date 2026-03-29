@@ -22,8 +22,11 @@ namespace KeywordComparison
     /// </summary>
     public partial class Keywords : UserControl
     {
-        private string filename = "data.json";
+        // a readonly keyword? cool
+        private readonly string filename = "data.json";
         private ListBoxItem selectedItem = null;
+        private string newKeyword => keywordInput.Text;
+
         public Keywords()
         {
             InitializeComponent();
@@ -96,6 +99,37 @@ namespace KeywordComparison
                 // reset selected item
                 this.selectedItem = null;
             }
+        }
+
+        private void addKeyword(object sender, RoutedEventArgs e)
+        {
+            // check if not duplicate, otherwise add to keyword as an item :)
+            for (int i = 0; i < keywords.Items.Count;i++)
+            {
+                string keyword = (String) ((ListBoxItem) keywords.Items[i]).Content;
+                if (keyword.Equals(this.newKeyword))
+                {
+                    this.displayErrorMessage($"{this.newKeyword} is already present in your list of keywords");
+                    return;
+                }
+            }
+
+            this.hideErrorMessage();
+            ListBoxItem newKeywordItem = new ListBoxItem();
+            newKeywordItem.Content = this.newKeyword;
+            keywords.Items.Add(newKeywordItem);
+
+        }
+
+        private void displayErrorMessage(string message)
+        {
+            errorLabel.Content = message;
+            errorLabel.Visibility = Visibility.Visible;
+        }
+
+        private void hideErrorMessage()
+        {
+            errorLabel.Visibility = Visibility.Hidden;
         }
     }
 }

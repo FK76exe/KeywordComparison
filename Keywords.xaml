@@ -9,32 +9,60 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" x:Name="keywordlabel">Keywords</Label>
-        
-        <!--
+        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,10,0">
+            <Label Grid.Row="0" Grid.Column="0" x:Name="keywordlabel">Keywords</Label>
+            <!--
             Like a modern frontend framework, we can add lifecycle hooks!
             For this ListBox we have an Initializer hook, when the box is created when the program is run
             When the program runs, we will call the function "readDataFile".
             What happens? Go check the code-behind file
         -->
-        <ListBox Grid.Row="1" Grid.Column="0" x:Name="keywords" Margin="10" Initialized="readDataFile">
-        </ListBox>
+            <ListBox Name="keywords" Initialized="readDataFile" MinWidth="200px" Margin="0,0,0,25" MinHeight="20px">
+            </ListBox>
 
-        <Button 
-            Grid.Row="2" 
-            Grid.Column="0" 
+            <Button
             x:Name="removeButton" 
             Click="removeKeyword"
+            MinWidth="200px"
+                Height="25px"
         >
-            Remove...
-        </Button>
+                Remove...
+            </Button>
+        </StackPanel>
+   
+        <!-- Text Box for inputting new Keywords -->
+        
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="10,0,0,0"
+        >
+            <Label>Add a Keyword</Label>
+            <TextBox
+                x:Name="keywordInput"
+                Margin="0,0,0,25"
+                MinWidth="200px" Height="20"
+            />
+            <Button
+                Click="addKeyword"
+                MinWidth="200px"
+                Height="25px"
+            >
+                Add
+            </Button>
+            <!-- 
+            label for duplicate errors
+            Visibility is hidden, meaning that the content doesn't show but the space is still reserved
+            In contrast, collapsed frees up that space
+            -->
+            
+            <Label x:Name="errorLabel" Visibility="Hidden"></Label>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -16,3 +16,4 @@ TODO as of 2026-03-29
 - Remove keywords from data file
 - Add keyword feature 
 - View keywords resume matches and keywords it is missing
+- Sort Keywords display

@@ -56,7 +56,9 @@ namespace KeywordComparison
                 // what does \b mean?
                 // it means boundary anchor, so we have to match the word bordering a nonword character,
                 // like a space or tab
-                String pattern = $@"\b{(keywords[i]).ToLower()}\b";
+                // what does Regex.Escape do? Converts a string to have escape characters
+                // C++ -> would end up like invalid regex if formatted raw -> Regex.Escape fixes this!
+                String pattern = $@"\b{(Regex.Escape(keywords[i].ToLower()))}";
                 // lowercase everything to avoid missing stuff
                 if (Regex.Match(jobDescription.ToLower(), pattern).Success)
                 {
@@ -71,7 +73,7 @@ namespace KeywordComparison
             int keywordCount = 0;
             foreach (String keyword in keywords)
             {
-                String pattern = $@"\b{keyword.ToLower()}\b";
+                String pattern = $@"\b{Regex.Escape(keyword.ToLower())}";
                 if (Regex.Match(body.ToLower(), pattern).Success)
                 {
                     keywordCount++;
