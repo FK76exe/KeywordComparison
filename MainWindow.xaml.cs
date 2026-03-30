@@ -33,9 +33,8 @@ namespace KeywordComparison
 
             // this is how we access public methods
             // note: string and String are the same thing, just need to be consistent with it.
-            List<string> keywords = keywordTab.extractKeywords();
-            List<String> jobDescKeywords = GetKeywordsFromText(keywords, jobDescription);
-            List<string> resumeKeywords = GetKeywordsFromText(keywords, resume);
+            List<String> jobDescKeywords = GetKeywordsFromText(keywordTab.keywordList, jobDescription);
+            List<string> resumeKeywords = GetKeywordsFromText(keywordTab.keywordList, resume);
 
             // Can I treat lists like a set and get missing keywords?
             // [.. ] is like ".ToList" but simpler, like list comprehension. Cool!

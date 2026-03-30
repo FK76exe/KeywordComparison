@@ -26,6 +26,7 @@ namespace KeywordComparison
         private readonly string filename = "data.json";
         private ListBoxItem selectedItem = null;
         private string newKeyword => keywordInput.Text;
+        public List<string> keywordList = new List<string>(); // turns out this simplifies a lot...
 
         public Keywords()
         {
@@ -53,17 +54,10 @@ namespace KeywordComparison
             if (File.Exists(this.filename)) {
                 string fileJSON = File.ReadAllText(this.filename); // read from data.json, a static file
                 // JsonSerializer is a static class, don't need to instantiate an object for it.
-                List<String> keywordsFromFile = JsonSerializer.Deserialize<List<string>>(fileJSON);
+                this.keywordList = JsonSerializer.Deserialize<List<string>>(fileJSON);
+                this.keywordList.Sort();
                 // with keywords loaded, make ListBoxItems out of it
-                for (int i = 0; i < keywordsFromFile.Count; i++)
-                {
-                    // for each keyword, create a ListBoxItem and add to to ListBox
-                    // at the end, we will have all our keywords added to ListBox, yay!
-                    ListBoxItem keywordItem = new ListBoxItem();
-                    keywordItem.Selected += this.setSelectedKeywordItem;
-                    keywordItem.Content = keywordsFromFile[i];
-                    keywords.Items.Add(keywordItem);
-                }
+                this.refreshListBox();
             }
         }
     
@@ -71,14 +65,8 @@ namespace KeywordComparison
         // what do we need to do? Rewrite the file!
         public void writeDataFile()
         {
-            // make list of strings, then serialize into json
-            List<string> keywordStrings = new List<string>();
-            for (int i = 0; i < keywords.Items.Count; i++)
-            {
-                ListBoxItem item = (ListBoxItem) keywords.Items[i];
-                keywordStrings.Add((String) item.Content);
-            }
-            string serailizedList = JsonSerializer.Serialize(keywordStrings);
+            // turns
+            string serailizedList = JsonSerializer.Serialize(this.keywordList);
             // overwrite data.json with new serializedList
             File.WriteAllText(this.filename, serailizedList);
         }
@@ -103,22 +91,30 @@ namespace KeywordComparison
 
         private void addKeyword(object sender, RoutedEventArgs e)
         {
-            // check if not duplicate, otherwise add to keyword as an item :)
-            for (int i = 0; i < keywords.Items.Count;i++)
+            // check if not duplicate, otherwise add to it to the list
+            if (this.keywordList.Contains(this.newKeyword))
             {
-                string keyword = (String) ((ListBoxItem) keywords.Items[i]).Content;
-                if (keyword.Equals(this.newKeyword))
-                {
-                    this.displayErrorMessage($"{this.newKeyword} is already present in your list of keywords");
-                    return;
-                }
+                this.displayErrorMessage($"{this.newKeyword} is already present in your list of keywords");
+                return;
             }
+            
 
             this.hideErrorMessage();
-            ListBoxItem newKeywordItem = new ListBoxItem();
-            newKeywordItem.Content = this.newKeyword;
-            keywords.Items.Add(newKeywordItem);
+            this.keywordList.Add(this.newKeyword);
+            this.keywordList.Sort();
+            this.refreshListBox();
+        }
 
+        private void refreshListBox()
+        {
+            keywords.Items.Clear(); // so we don't get duplicates over and over again
+            for (int i = 0; i < this.keywordList.Count; i++)
+            {
+                ListBoxItem keywordItem = new ListBoxItem();
+                keywordItem.Selected += this.setSelectedKeywordItem;
+                keywordItem.Content = keywordList[i];
+                keywords.Items.Add(keywordItem);
+            }
         }
 
         private void displayErrorMessage(string message)
@@ -131,5 +127,6 @@ namespace KeywordComparison
         {
             errorLabel.Visibility = Visibility.Hidden;
         }
+
     }
 }
