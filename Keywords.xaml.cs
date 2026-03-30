@@ -25,8 +25,8 @@ namespace KeywordComparison
         // a readonly keyword? cool
         private readonly string filename = "data.json";
         private ListBoxItem selectedItem = null;
-        private string newKeyword => keywordInput.Text;
-        public List<string> keywordList = new List<string>(); // turns out this simplifies a lot...
+        private string NewKeyword => keywordInput.Text;
+        public List<string> keywordList = []; // turns out this simplifies a lot...
 
         public Keywords()
         {
@@ -34,22 +34,13 @@ namespace KeywordComparison
         }
 
         // by making this function public, we can use this function should we use Keywords as part of another component
-        public List<string> extractKeywords()
-        {
-            List<string> keywordList = new List<string>();
-            for (int i = 0; i< keywords.Items.Count; i++)
-            {
-                keywordList.Add((String) ((ListBoxItem) keywords.Items.GetItemAt(i)).Content);
-            }
-            return keywordList;
-        }
 
         /* Hey, what do these parameters even mean?
          * sender is the object that calls it (in our case, the List Box with a load lifecycle hook
          * e is the event argument from the system... so lifecycle hooks are one I guess since
          * the individual objects don't have control over that (for good reason!)
          */
-        private void readDataFile(object sender, System.EventArgs e)
+        private void ReadDataFile(object sender, System.EventArgs e)
         {
             if (File.Exists(this.filename)) {
                 string fileJSON = File.ReadAllText(this.filename); // read from data.json, a static file
@@ -57,13 +48,13 @@ namespace KeywordComparison
                 this.keywordList = JsonSerializer.Deserialize<List<string>>(fileJSON);
                 this.keywordList.Sort();
                 // with keywords loaded, make ListBoxItems out of it
-                this.refreshListBox();
+                this.RefreshListBox();
             }
         }
     
         // now, let's create another lifecycle hook... for when the program is destroyed/ended
         // what do we need to do? Rewrite the file!
-        public void writeDataFile()
+        public void WriteDataFile()
         {
             // turns
             string serailizedList = JsonSerializer.Serialize(this.keywordList);
@@ -72,13 +63,13 @@ namespace KeywordComparison
         }
 
         // keep a selected keyword variable -> useful for display and editing/deleting it.
-        private void setSelectedKeywordItem(object sender, RoutedEventArgs e)
+        private void SetSelectedKeywordItem(object sender, RoutedEventArgs e)
             {
                 this.selectedItem = (ListBoxItem) sender;
                 removeButton.Content = $"Remove {selectedItem.Content}?";
             }
 
-        private void removeKeyword(object sender, RoutedEventArgs e)
+        private void RemoveKeyword(object sender, RoutedEventArgs e)
         {
             if (this.selectedItem != null)
             {
@@ -89,41 +80,41 @@ namespace KeywordComparison
             }
         }
 
-        private void addKeyword(object sender, RoutedEventArgs e)
+        private void AddKeyword(object sender, RoutedEventArgs e)
         {
             // check if not duplicate, otherwise add to it to the list
-            if (this.keywordList.Contains(this.newKeyword))
+            if (this.keywordList.Contains(this.NewKeyword))
             {
-                this.displayErrorMessage($"{this.newKeyword} is already present in your list of keywords");
+                this.DisplayErrorMessage($"{this.NewKeyword} is already present in your list of keywords");
                 return;
             }
             
 
-            this.hideErrorMessage();
-            this.keywordList.Add(this.newKeyword);
+            this.HideErrorMessage();
+            this.keywordList.Add(this.NewKeyword);
             this.keywordList.Sort();
-            this.refreshListBox();
+            this.RefreshListBox();
         }
 
-        private void refreshListBox()
+        private void RefreshListBox()
         {
             keywords.Items.Clear(); // so we don't get duplicates over and over again
             for (int i = 0; i < this.keywordList.Count; i++)
             {
-                ListBoxItem keywordItem = new ListBoxItem();
-                keywordItem.Selected += this.setSelectedKeywordItem;
+                ListBoxItem keywordItem = new(); // this is neat
+                keywordItem.Selected += this.SetSelectedKeywordItem;
                 keywordItem.Content = keywordList[i];
                 keywords.Items.Add(keywordItem);
             }
         }
 
-        private void displayErrorMessage(string message)
+        private void DisplayErrorMessage(string message)
         {
             errorLabel.Content = message;
             errorLabel.Visibility = Visibility.Visible;
         }
 
-        private void hideErrorMessage()
+        private void HideErrorMessage()
         {
             errorLabel.Visibility = Visibility.Hidden;
         }

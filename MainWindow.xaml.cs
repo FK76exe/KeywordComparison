@@ -21,15 +21,15 @@ namespace KeywordComparison
         public MainWindow()
         {
             InitializeComponent();
-            // onCompareText is the function assigned to receive the event handler from compare tab
-            compareTab.eventHandler += onCompareText;
+            // OnCompareText is the function assigned to receive the event handler from compare tab
+            compareTab.EventHandler += OnCompareText;
         }
 
-        private void onCompareText(object sender, EventArgs e)
+        private void OnCompareText(object sender, EventArgs e)
         {
             // this is how we access public variables from a user control
-            string jobDescription = compareTab.jobDescription;
-            string resume = compareTab.resume;
+            string jobDescription = compareTab.JobDescription;
+            string resume = compareTab.Resume;
 
             // this is how we access public methods
             // note: string and String are the same thing, just need to be consistent with it.
@@ -56,7 +56,7 @@ namespace KeywordComparison
         // Question is... when to use static fns?
         private static List<String> GetKeywordsFromText(List<string> keywords, string jobDescription)
         {
-            List<String> keywordsInJD = new List<String>();
+            List<String> keywordsInJD = [];
             for (int i = 0; i < keywords.Count; i++)
             {
                 // what does \b mean?
@@ -74,9 +74,9 @@ namespace KeywordComparison
             return keywordsInJD;
         }
 
-        private void saveData(object sender, System.ComponentModel.CancelEventArgs e)
+        private void SaveData(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            keywordTab.writeDataFile();
+            keywordTab.WriteDataFile();
         }
     }
 }

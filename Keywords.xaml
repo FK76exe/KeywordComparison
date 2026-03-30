@@ -23,12 +23,12 @@
             When the program runs, we will call the function "readDataFile".
             What happens? Go check the code-behind file
         -->
-            <ListBox Name="keywords" Initialized="readDataFile" MinWidth="200px" Margin="0,0,0,25" MinHeight="20px">
+            <ListBox Name="keywords" Initialized="ReadDataFile" MinWidth="200px" Margin="0,0,0,25" MinHeight="20px">
             </ListBox>
 
             <Button
             x:Name="removeButton" 
-            Click="removeKeyword"
+            Click="RemoveKeyword"
             MinWidth="200px"
                 Height="25px"
         >
@@ -50,7 +50,7 @@
                 MinWidth="200px" Height="20"
             />
             <Button
-                Click="addKeyword"
+                Click="AddKeyword"
                 MinWidth="200px"
                 Height="25px"
             >

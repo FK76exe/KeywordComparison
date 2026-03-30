@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:KeywordComparison"
         mc:Ignorable="d"
         Title="Keyword Comparison App" Height="450" Width="800"
-        Closing="saveData"
+        Closing="SaveData"
         >
 
     <!-- We can add tabs to our software with tab control, just place each tab content under tabitem
