@@ -56,14 +56,27 @@
         >
             Compare
         </Button>
-        <Label 
-            Grid.Row="3" 
-            Grid.Column="0" 
-            x:Name="scoreDisplay" 
-            FontSize="20px" 
-            HorizontalAlignment="Center" 
+        
+        <!-- Stack Panel containing score display and missing keywords -->
+        <StackPanel
+            Grid.Row="3"
+            Grid.Column="0"
             Grid.ColumnSpan="2"
         >
-        </Label>
+            <Label 
+                x:Name="scoreDisplay" 
+                FontSize="20px" 
+                HorizontalAlignment="Center" 
+                Grid.ColumnSpan="2"
+            >
+            </Label>
+        
+           <!--
+            Missing keywords -> user likely not interested in what they got right
+            This should be it's own list, sorted alphabetically
+            -->
+            <TextBlock Visibility="Hidden" x:Name="missingKeywordsBold"><Bold>Missing Keywords:</Bold></TextBlock>
+            <TextBlock Visibility="Hidden" x:Name="missingKeywordList"></TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>

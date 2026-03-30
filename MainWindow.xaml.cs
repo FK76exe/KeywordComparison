@@ -34,21 +34,28 @@ namespace KeywordComparison
             // this is how we access public methods
             // note: string and String are the same thing, just need to be consistent with it.
             List<string> keywords = keywordTab.extractKeywords();
-            List<String> jobDescKeywords = GetKeywordsFromJobDescription(keywords, jobDescription);
-            int resumeCount = CountKeywordAppearances(jobDescKeywords, resume);
+            List<String> jobDescKeywords = GetKeywordsFromText(keywords, jobDescription);
+            List<string> resumeKeywords = GetKeywordsFromText(keywords, resume);
+
+            // Can I treat lists like a set and get missing keywords?
+            // [.. ] is like ".ToList" but simpler, like list comprehension. Cool!
+            int resumeKeywordCount = jobDescKeywords.Intersect(resumeKeywords).Count();
+            List<string> missingKeywords = [.. jobDescKeywords.Except(resumeKeywords)];
 
             double score = 0;
             if (jobDescKeywords.Count > 0)
             {
-               score =  ((Double) resumeCount / jobDescKeywords.Count) * 100;        
+               score =  ((Double) resumeKeywordCount / jobDescKeywords.Count) * 100;        
             }
             // aaaand we ship things over when we are done.
             compareTab.DisplayScore(score);
+            missingKeywords.Sort();
+            compareTab.DisplayMissingKeywords(missingKeywords);
         }
 
         // we can call this function static as it does not rely on instance data (there are none!)
         // Question is... when to use static fns?
-        private static List<String> GetKeywordsFromJobDescription(List<string> keywords, string jobDescription)
+        private static List<String> GetKeywordsFromText(List<string> keywords, string jobDescription)
         {
             List<String> keywordsInJD = new List<String>();
             for (int i = 0; i < keywords.Count; i++)
@@ -66,20 +73,6 @@ namespace KeywordComparison
                 }
             }
             return keywordsInJD;
-        }
-
-        private static int CountKeywordAppearances(List<String> keywords, string body)
-        {
-            int keywordCount = 0;
-            foreach (String keyword in keywords)
-            {
-                String pattern = $@"\b{Regex.Escape(keyword.ToLower())}";
-                if (Regex.Match(body.ToLower(), pattern).Success)
-                {
-                    keywordCount++;
-                }
-            }
-            return keywordCount;
         }
 
         private void saveData(object sender, System.ComponentModel.CancelEventArgs e)

@@ -53,5 +53,23 @@ namespace KeywordComparison
             // F0 -> float with zero decimal points
             scoreDisplay.Content = $"Score: {score:F0}%";
         }
+
+        public void DisplayMissingKeywords(List<string> keywords)
+        {
+            if (keywords.Count == 0)
+            {
+                // hide the label
+                missingKeywordsBold.Visibility = Visibility.Hidden;
+                missingKeywordList.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                // show the label
+                missingKeywordsBold.Visibility = Visibility.Visible;
+                missingKeywordList.Visibility = Visibility.Visible;
+                // now... make a list!
+                missingKeywordList.Text = String.Join(", ", keywords);
+            }
+        }
     }
 }
